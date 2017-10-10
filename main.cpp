@@ -1,13 +1,11 @@
 #include <QApplication>
-#include <QWidget>
+#include "mainwindow.h"
 
 int main(int agrc, char *agrv[]) {
     QApplication app(agrc, agrv);
-    QWidget window;
 
-    window.resize(800, 600);
-    window.setWindowTitle("Program");
-    window.show();
+    MainWindow *mainWin = new MainWindow;
+    mainwin->show();
 
     return app.exec();
 }
