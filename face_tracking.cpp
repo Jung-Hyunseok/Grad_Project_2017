@@ -3,24 +3,24 @@
 face_tracking::face_tracking() 
     // User-defined Constructor
     // Setting for picamera
-    camera.set(CV_CAP_PROP_FORMAT, CV_8UC3);
-    camera.set(CV_CAP_PROP_WIDTH, 720);
-    camera.set(CV_CAP_PROP_WIDTH, 480);
+    //camera.set(CV_CAP_PROP_FORMAT, CV_8UC3);
+    //camera.set(CV_CAP_PROP_WIDTH, 720);
+    //camera.set(CV_CAP_PROP_WIDTH, 480);
 
     // Center coordinate
     x_pos = 720 / 2;
     y_pos = 480 / 2;
 
     // Exception : Fail to get camera
-    try {
-        if(camera.open() != true)
-            throw "Camera failed";
-    } catch(std::string msg) {
-        std::cerr << msg << std::endl;
-    }
+    //try {
+    //    if(camera.open() != true)
+    //        throw "Camera failed";
+    //} catch(std::string msg) {
+    //    std::cerr << msg << std::endl;
+    //}
 }
 
-void face_tracking::lbp_detect() { // Detection using lbp cascade
+void face_tracking::lbp_detect(raspicam::RaspiCam_cv &camera) { // Detection using lbp cascade
     cv::CascadeClassifier face_cascade;
 
     // Using LBP
@@ -46,7 +46,7 @@ void face_tracking::lbp_detect() { // Detection using lbp cascade
 }
 
 // Tracking face by optical flow using lbp based feature
-void face_tracking::tracking() { 
+void face_tracking::tracking(raspicam::RaspiCam_cv &camera) { 
     // Point vectors for optical flow
     std::vector<cv::Point2f> corners_prev;
     std::vector<cv::Point2f> corners;
