@@ -1,23 +1,6 @@
 #include "fact_tracking"
 
-face_tracking::face_tracking() 
-    // User-defined Constructor
-    // Setting for picamera
-    //camera.set(CV_CAP_PROP_FORMAT, CV_8UC3);
-    //camera.set(CV_CAP_PROP_WIDTH, 720);
-    //camera.set(CV_CAP_PROP_WIDTH, 480);
-
-    // Center coordinate
-    x_pos = 720 / 2;
-    y_pos = 480 / 2;
-
-    // Exception : Fail to get camera
-    //try {
-    //    if(camera.open() != true)
-    //        throw "Camera failed";
-    //} catch(std::string msg) {
-    //    std::cerr << msg << std::endl;
-    //}
+face_tracking::face_tracking() : x_pos(720 / 2), y_pos(480 / 2) {
 }
 
 void face_tracking::lbp_detect(raspicam::RaspiCam_cv &camera) { // Detection using lbp cascade
