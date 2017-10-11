@@ -16,11 +16,9 @@ const double min_distance = 10;
 class face_tracking {
     public:
         face_tracking();
-        void lbp_detect();
-        void tracking();
-        void kalman();
+        void lbp_detect(raspicam::RaspiCam_cv camera);
+        void tracking(raspicam::RaspiCam_cv camera);
     private:
-        raspicam::RaspiCam_cv camera;
         int x_pos;
         int y_pos;
         cv::Rect face;
