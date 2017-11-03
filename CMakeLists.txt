@@ -5,5 +5,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} /usr/local/lib/cmake/)
 find_package(raspicam REQUIRED)
 find_package(OpenCV)
 
-add_executable (main test.cc)
-target_link_libraries (main ${raspicam_CV_LIBS})
+set(SRC_FILES test.cc tracking.cc tracking.h)
+
+add_executable (test ${SRC_FILES})
+target_link_libraries (test ${raspicam_CV_LIBS})
