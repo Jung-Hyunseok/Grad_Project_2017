@@ -14,8 +14,10 @@ int main(void) {
 	Servo::hwPwmSetup();
 	Servo::allignServo();
 	
-	cam_video.setProcess(std::bind(cam_tracker.trackFace,
-		std::placeholders::_1, std::placeholders::_2));
+	using namespace std::placeholders;
+
+	cam_video.setProcess(std::bind(&Tracker::trackFace,
+		&cam_tracker, _1, _2));
 	cam_video.runProcess(frame, output);
 
 }
