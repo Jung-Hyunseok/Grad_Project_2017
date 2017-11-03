@@ -43,27 +43,24 @@ bool FrameProc::setCamera() {
 	return true;
 }
 
-void displayInput(std::string windows_name) {
+void FrameProc::displayInput(std::string windows_name) {
 	windows_name_input(windws_name);
 	cv::namedWindow(windows_name_input);
 }
 
-void displayOut(std::string windows_name) {
+void FrameProc::displayOutput(std::string windows_name) {
 	windows_name_output(windows_name);
 	cv::namedWindow(windows_name_input);
 }
 
-void setProcess(std::function<void(cv::Mat &, cv::Mat &)> function) {
+void FrameProc::setProcess(std::function<void(cv::Mat &, cv::Mat &)> function) {
 	process = std::move(function);
 }
 
-void runProcess() {
+void FrameProc::runProcess() {
 	cv::Mat frame;
 	cv::Mat output;
 
-	setProcess(std::bind(&Tracker::trackFace, this, 
-		std::placeholders::_1, std::placeholders::_2));
-	
 	while (true) {
 		camera >> frame;
 
