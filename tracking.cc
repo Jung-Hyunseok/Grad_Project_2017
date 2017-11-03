@@ -44,13 +44,13 @@ bool FrameProc::setCamera() {
 }
 
 void FrameProc::displayInput(std::string windows_name) {
-	windows_name_input(windws_name);
+	windows_name_input(windows_name);
 	cv::namedWindow(windows_name_input);
 }
 
 void FrameProc::displayOutput(std::string windows_name) {
 	windows_name_output(windows_name);
-	cv::namedWindow(windows_name_input);
+	cv::namedWindow(windows_name_output);
 }
 
 void FrameProc::setProcess(std::function<void(cv::Mat &, cv::Mat &)> function) {
@@ -60,9 +60,10 @@ void FrameProc::setProcess(std::function<void(cv::Mat &, cv::Mat &)> function) {
 void FrameProc::runProcess(cv::Mat &frame, cv::Mat &output) {
 
 	while (true) {
-		camera >> frame;
+		camera.grab();
+		camera.retrieve(frame);
 
-		if (windows_name_input.lenght() != 0)
+		if (windows_name_input.length() != 0)
 			cv::imshow(windows_name_input, frame);
 
 		process(frame, output);
@@ -70,7 +71,7 @@ void FrameProc::runProcess(cv::Mat &frame, cv::Mat &output) {
 		if (windows_name_output.length() != 0)
 			cv::imshow(windows_name_output, output);
 
-		if (waitkey(10) == 27) // If press ESC
+		if (cv::waitkey(10) == 27) // If press ESC
 			break; // End process
 	}
 }
@@ -126,29 +127,29 @@ void Tracker::trackFace(cv::Mat &frame, cv::Mat &output) {
 	corners[1].resize(i);
 	position.resize(i);
 
-	drawBox(frame, output);
+	drawBox(frame);
 	getCenterPoint();
 
 	if (center.x > WIDTH / 2) {
 		if (pan >= 100) // Over allowed angle(+90 degree)!
-			overlayText(output, "Cannot Move!");
+			overlayText(output, std::string("Cannot Move!"));
 		else
 			Servo::panControl(++pan);
 	} else if (center.x < WIDTH / 2) {
 		if (pan <= 50) // Over allowd angle(-90 degree)!
-			overlayText(output, "Cannot Move!");
+			overlayText(output, std::string("Cannot Move!"));
 		else
 			Servo::panControl(--pan);
 	}
 
 	if (center.y > HEIGHT / 2) {
 		if (tilt <= 50) // Over allowed angle(-90 degree)!
-			overlayText(output, "Cannot Move!");
+			overlayText(output, std::string("Cannot Move!"));
 		else
 			Servo::tiltControl(--tilt);
 	} else if (center.y < HEIGHT / 2) {
 		if (tilt >= 80) // Physical frame restriction 
-			overlayText(output, "Cannot Move!");
+			overlayText(output, std::string("Cannot Move!"));
 		else
 			Servo::tiltControl(++tilt);
 	}
@@ -162,7 +163,7 @@ bool Tracker::addCorners() {
 }
 
 bool Tracker::acceptCorners(int idx) {
-	if (status[i] == false)
+	if (status[idx] == false)
 		return false;
 	if ((corners[0][idx].x - corners[1][idx].x) != 0)
 		return true;
@@ -172,27 +173,27 @@ bool Tracker::acceptCorners(int idx) {
 
 void Tracker::drawBox(cv::Mat &frame) {
 	// Draw rectangular box
-	box = booundingRect(corners[0]);
-	rectangle(frame, box, cv::CV_SCALAR(0, 255, 0));
+	cv::Rect box = cv::booundingRect(corners[0]);
+	cv::rectangle(frame, box, cv::Scalar(0, 255, 0));
 }
 
 void Tracker::getCenterPoint() {
-	box = boundingRect(corners[0]);
+	cv::Rect box = cv::boundingRect(corners[0]);
 
 	center.x = box.x + 0.5 * box.width;
 	center.y = box.y + 0.5 * box.height;
 }
 
-void overlayText(cv::Mat &frame, std::string &text) {
+void overlayText(cv::Mat &frame, const std::string &text) {
 	cv::putText(frame, text, cv::Point(WIDTH - 50, 50),
 		cv::FONT_HERSHEY_COMPLEX_SMALL, 4, 
-		cv::CV_SCALAR(255, 0, 0), 1, cv::CV_AA);
+		cv::Scalar(255, 0, 0), 1, CV_AA);
 }
 
-void overlayFps(cv::Mat &frame, int fps) {
-	std::string tmp(fps); 
+void overlayFps(cv::Mat &frame, const int fps) {
+	std::string tmp(std::to_string(fps)); 
 
 	cv::putText(frame, tmp, cv::Point(50, 50),
 		cv::FONT_HERSHEY_COMPLEX_SMALL, 4,
-		cv::CV_SCALAR(255, 0, 0), 1, cv::CV_AA);
+		cv::Scalar(255, 0, 0), 1, CV_AA);
 }

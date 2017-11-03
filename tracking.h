@@ -63,6 +63,6 @@ private:
 };
 
 // Functions for overlaying string
-void overlayText(cv::Mat &frame, std::string &text);
-void overlayFps(cv::Mat &frame, int fps);
+inline void overlayText(cv::Mat &frame, const std::string &text);
+inline void overlayFps(cv::Mat &frame, const int fps);
 #endif
