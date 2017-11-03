@@ -57,9 +57,7 @@ void FrameProc::setProcess(std::function<void(cv::Mat &, cv::Mat &)> function) {
 	process = std::move(function);
 }
 
-void FrameProc::runProcess() {
-	cv::Mat frame;
-	cv::Mat output;
+void FrameProc::runProcess(cv::Mat &frame, cv::Mat &output) {
 
 	while (true) {
 		camera >> frame;

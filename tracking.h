@@ -27,10 +27,10 @@ public:
 	void displayInput(std::string window_name);
 	void displayOutput(std::string window_name);
 	void setProcess(std::function<void(cv::Mat &, cv::Mat &)> function);
-	void runProcess();	// Caution! Must allign motors before using it!
+	void runProcess(cv::Mat &frame, cv::Mat &output);	// Caution! Must allign motors before using it!
 	
 private:
-	raspicam::RaspiCam_cv camera;
+	raspicam::RaspiCam_Cv camera;
 	double fps_input;
 	std::string windows_name_input;
 	std::string windows_name_output;
@@ -44,7 +44,7 @@ public:
 	void getFace(cv::Mat &frame);
 	void trackFace(cv::Mat &frame, cv::Mat &output);
 	bool addCorners();
-	bool acceptCorners();
+	bool acceptCorners(int idx);
 	void drawBox(cv::Mat &frame);
 	void getCenterPoint();
 
