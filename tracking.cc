@@ -38,7 +38,7 @@ bool FrameProc::setCamera() {
 	camera.set(CV_CAP_PROP_FORMAT, CV_8UC3);
 	camera.set(CV_CAP_PROP_FRAME_WIDTH, WIDTH);
 	camera.set(CV_CAP_PROP_FRAME_HEIGHT, HEIGHT);
-	fps_input = camera.set(CV_CAP_PROP_FPS);
+	fps_input = camera.get(CV_CAP_PROP_FPS);
 
 	return true;
 }
@@ -173,12 +173,12 @@ bool Tracker::acceptCorners(int idx) {
 
 void Tracker::drawBox(cv::Mat &frame) {
 	// Draw rectangular box
-	cv::Rect box = cv::booundingRect(corners[0]);
+	cv::Rect box = cv::boundingRect(corners[0]);
 	cv::rectangle(frame, box, cv::Scalar(0, 255, 0));
 }
 
 void Tracker::getCenterPoint() {
-	cv::Rect box = cv::boundingRect(corners[0]);
+	cv::Rect box = cv::bondingRect(corners[0]);
 
 	center.x = box.x + 0.5 * box.width;
 	center.y = box.y + 0.5 * box.height;

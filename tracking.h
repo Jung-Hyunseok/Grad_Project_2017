@@ -7,7 +7,9 @@
 #include <string>
 #include <functional>
 #include "raspicam/raspicam_cv.h"
-#include "opencv2/objdetect.hpp"
+#include "opencv2/opencv.hpp"
+#include "opencv2/objdetect/objdetect.hpp"
+#include "opencv2/video/tracking.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
 #include "wiringPi.h"
