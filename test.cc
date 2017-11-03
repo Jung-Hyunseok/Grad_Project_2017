@@ -14,7 +14,7 @@ int main(void) {
 	Servo::hwPwmSetup();
 	Servo::allignServo();
 	
-	cam_video.setProcess(std::bind(cam_tracker.trackFace(frame, output),
+	cam_video.setProcess(std::bind(cam_tracker.trackFace,
 		std::placeholders::_1, std::placeholders::_2));
 	cam_video.runProcess(frame, output);
 
