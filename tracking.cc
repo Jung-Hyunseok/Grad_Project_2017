@@ -5,8 +5,8 @@
 
 // Function definitions of namespace Servo
 void Servo::hwPwmSetup() {
-	pinMode(PWM_0, PWM_OUT); // Mode setup for tilt control
-	pinMode(PWM_1, PWM_OUT); // Mode setup for pan control
+	pinMode(PWM_0, PWM_OUTPUT); // Mode setup for tilt control
+	pinMode(PWM_1, PWM_OUTPUT); // Mode setup for pan control
 
 	pwmSetMode(PWM_MODE_MS);
 	pwmSetClock(384);
@@ -44,12 +44,12 @@ bool FrameProc::setCamera() {
 }
 
 void FrameProc::displayInput(std::string windows_name) {
-	windows_name_input(windows_name);
+	windows_name_input.assign(windows_name);
 	cv::namedWindow(windows_name_input);
 }
 
 void FrameProc::displayOutput(std::string windows_name) {
-	windows_name_output(windows_name);
+	windows_name_output.assign(windows_name);
 	cv::namedWindow(windows_name_output);
 }
 
@@ -71,7 +71,7 @@ void FrameProc::runProcess(cv::Mat &frame, cv::Mat &output) {
 		if (windows_name_output.length() != 0)
 			cv::imshow(windows_name_output, output);
 
-		if (cv::waitkey(10) == 27) // If press ESC
+		if (cv::waitKey(10) == 27) // If press ESC
 			break; // End process
 	}
 }
@@ -178,7 +178,7 @@ void Tracker::drawBox(cv::Mat &frame) {
 }
 
 void Tracker::getCenterPoint() {
-	cv::Rect box = cv::bondingRect(corners[0]);
+	cv::Rect box = cv::boundingRect(corners[0]);
 
 	center.x = box.x + 0.5 * box.width;
 	center.y = box.y + 0.5 * box.height;
