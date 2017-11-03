@@ -8,14 +8,14 @@ int main(void) {
 	cv::Mat output;
 
 	cam_video.setCamera();
-	cam_video.displayInput(string("Input"));
-	cam_video.displayOutput(string("Output"));
+	cam_video.displayInput(std::string("Input"));
+	cam_video.displayOutput(std::string("Output"));
 
 	Servo::hwPwmSetup();
 	Servo::allignServo();
 	
-	cam_video.setProcess(std::bind(&cam_tracker.trackFace(frame, output),
+	cam_video.setProcess(std::bind(cam_tracker.trackFace(frame, output),
 		this, std::placeholders::_1, std::placeholders::_2));
-	cam_video.runProcess();
+	cam_video.runProcess(frame, output);
 
 }
