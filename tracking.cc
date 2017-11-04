@@ -59,9 +59,13 @@ void FrameProc::setProcess(std::function<void(cv::Mat &, cv::Mat &)> function) {
 
 void FrameProc::runProcess(cv::Mat &frame, cv::Mat &output) {
 
+
 	while (true) {
 		camera.grab();
 		camera.retrieve(frame);
+
+		cv::flip(frame, frame, 0);
+		cv::flip(frame, frame, 1);
 
 		if (windows_name_input.length() != 0)
 			cv::imshow(windows_name_input, frame);
